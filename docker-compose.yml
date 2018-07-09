@@ -1,0 +1,36 @@
+version: '3.3'
+
+services:
+    nginx:
+        build: ./nginx/.
+        env_file:
+            - .env
+        ports:
+            - "8080:80"
+        volumes:
+            - "./code:${PROJECT_DIR}"
+        links:
+            - php
+    php:
+        build: ./php/.
+        env_file:
+            - .env
+        volumes:
+            - "./code:${PROJECT_DIR}"
+    mysql:
+        image: mysql:5.7.22
+        restart: always
+        env_file:
+            - .env
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_DATABASE}
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        volumes:
+            - ./mysql/data:/var/lib/mysql
+volumes:
+    mysql:
+        driver: "local"

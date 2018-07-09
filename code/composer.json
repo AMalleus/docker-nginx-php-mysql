@@ -1,0 +1,14 @@
+{
+    "name": "mneudakhin/my-docker",
+    "description": "nginx + PHP-FPM + MySQL",
+    "type": "project",
+    "require": {
+        "slim/slim": "^3.10"
+    },
+    "authors": [
+        {
+            "name": "AMalleus",
+            "email": "ravenmaxim@gmail.com"
+        }
+    ]
+}
