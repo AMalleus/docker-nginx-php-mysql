@@ -10,5 +10,10 @@
             "name": "AMalleus",
             "email": "ravenmaxim@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "": "scripts/"
+        }
+    }
 }
