@@ -6,7 +6,7 @@ use Models\CRUDInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class CreateRecord
+class DeleteOneRecord
 {
 
     /** @var CRUDInterface */
@@ -19,24 +19,27 @@ class CreateRecord
     {
         $this->model = $model;
     }
-
-
+    
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function __invoke(Request $request, Response $response, array $args)
     {
-        $data = $request->getParsedBody();
-
-        $id = $this->model->insert($data);
-        if ($id) {
+        $affected = $this->model->delete(['id' => $args['recordId']]);
+        if ($affected) {
             return $response->withStatus(200)->withJson([
                 'success' => true,
-                'id' => $id,
+                'affected' => $affected,
                 'error' => '',
             ]);
         };
 
         return $response->withStatus(500)->withJson([
             'success' => false,
-            'id' => $id,
+            'affected' => $affected,
             'error' => 'Ничего не изменилось'
         ]);
     }

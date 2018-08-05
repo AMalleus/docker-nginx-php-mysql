@@ -6,7 +6,7 @@ use Models\CRUDInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class CreateRecord
+class UpdateOneRecord
 {
 
     /** @var CRUDInterface */
@@ -24,19 +24,20 @@ class CreateRecord
     public function __invoke(Request $request, Response $response, array $args)
     {
         $data = $request->getParsedBody();
+        unset($data['id']);
 
-        $id = $this->model->insert($data);
-        if ($id) {
+        $updated = $this->model->update($args['recordId'], $data);
+        if ($updated) {
             return $response->withStatus(200)->withJson([
                 'success' => true,
-                'id' => $id,
+                'affected' => $updated,
                 'error' => '',
             ]);
         };
 
         return $response->withStatus(500)->withJson([
             'success' => false,
-            'id' => $id,
+            'affected' => $updated,
             'error' => 'Ничего не изменилось'
         ]);
     }
