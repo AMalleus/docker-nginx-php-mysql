@@ -18,19 +18,21 @@ services:
         volumes:
             - "./code:${PROJECT_DIR}"
     mysql:
-        image: mysql:5.7.22
+        build: ./mysql/.
         restart: always
         env_file:
             - .env
         ports:
             - "3306:3306"
         environment:
-            - MYSQL_ROOT_PASSWORD=${MYSQL_DATABASE}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
             - MYSQL_DATABASE=${MYSQL_DATABASE}
             - MYSQL_USER=${MYSQL_USER}
             - MYSQL_PASSWORD=${MYSQL_PASSWORD}
         volumes:
             - ./mysql/data:/var/lib/mysql
+            - ./mysql/init/create.sql:/docker-entrypoint-initdb.d/create.sql
+            - ./mysql/init/custom.cnf:/etc/mysql/conf.d/custom.cnf
 volumes:
     mysql:
         driver: "local"

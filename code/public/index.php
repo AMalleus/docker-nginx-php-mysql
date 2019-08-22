@@ -1,6 +1,6 @@
 <?php
 
-define('ROOT', dirname(dirname(__FILE__)));
+define('ROOT', dirname(__FILE__, 2));
 
 require ROOT . '/vendor/autoload.php';
 
@@ -18,16 +18,12 @@ $app->get('[/]', function(\Slim\Http\Request $request, \Slim\Http\Response $resp
 
 $app->group('/records', function() {
     $this->get('[/]', '\Controllers\Rest\Records\GetAllRecords');
+    $this->post('[/]', '\Controllers\Rest\Records\CreateRecord');
 
     $this->get('/{recordId:\d+}[/]', '\Controllers\Rest\Records\GetOneRecord');
-
     $this->put('/{recordId:\d+}[/]', '\Controllers\Rest\Records\UpdateOneRecord');
-
     $this->delete('/{recordId:\d+}[/]', '\Controllers\Rest\Records\DeleteOneRecord');
-
-    $this->post('/create[/]', '\Controllers\Rest\Records\CreateRecord');
-})
-->add('\Middlewares\InitRecords');
+});
 
 $container = $app->getContainer();
 
@@ -41,10 +37,6 @@ $container['db'] = function () {
 
 $container['recordsModel'] = function ($container) {
     return new \Models\Records($container['db']);
-};
-
-$container['\Middlewares\InitRecords'] = function ($container) {
-    return new \Middlewares\InitRecords($container);
 };
 
 $container['\Controllers\Rest\Records\GetAllRecords'] = function ($container) {

@@ -33,7 +33,7 @@ class UpdateOneRecord
                 'affected' => $updated,
                 'error' => '',
             ]);
-        };
+        }
 
         return $response->withStatus(500)->withJson([
             'success' => false,

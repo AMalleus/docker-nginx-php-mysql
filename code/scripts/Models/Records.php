@@ -105,16 +105,4 @@ class Records implements CRUDInterface
     {
         return $this->db->delete(self::TABLE, $data);
     }
-
-
-    public function createTable(): bool
-    {
-        return $this->db->executeRaw(
-            'CREATE TABLE records (
-  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  `text` TEXT NOT NULL,
-  `authors` VARCHAR(255) NOT NULL
-);'
-        );
-    }
 }

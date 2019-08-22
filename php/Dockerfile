@@ -1,4 +1,4 @@
-FROM php:7.1-fpm
+FROM php:7.3-fpm
 
 # php extensions
 RUN docker-php-ext-install mysqli pdo pdo_mysql json
